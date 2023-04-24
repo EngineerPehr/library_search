@@ -11,17 +11,6 @@ const getTotalNumberOfBorrows = ({id = ''} = {}, books = []) => {
     return total
   }, 0)
   return numBorrows
-  // let accountBorrows = 0
-  // books.forEach((book) => {
-  //   const borrowList = book.borrows
-  //   borrowList.forEach((borrow) => {
-  //     const borrowID = borrow.id
-  //     if (borrowID === id) {
-  //       accountBorrows ++
-  //     }
-  //   })
-  // })
-  // return accountBorrows
 }
 
 const addAuthorToBook = (books = [], authors = []) => {
