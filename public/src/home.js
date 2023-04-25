@@ -28,13 +28,12 @@ const addToList = ({name, count} = {}, list = {}) => {
 // Helper function to get genre names from books
 const extractBookGenres = (books = []) => books.map((book) => ({name: book.genre, count: 1}))
 
-// Returns 5 most popular genres in descending order
+// Sorts most popular genres in descending order
 const getMostCommonGenres = (books = []) => {
-  const list = {}
   const genreObjects = []
-  const extractedGenres = extractBookGenres(books)
   // Builds list of genres then loops through it to create an array of objects
-  extractedGenres.forEach((genre) => addToList(genre, list))
+  const extractedGenres = extractBookGenres(books)
+  const list = extractedGenres.reduce((accList, genre) => addToList(genre, accList), {})
   for (item in list) {
     const currentItem = list[item]
     const genreObj = {...currentItem}
@@ -51,29 +50,28 @@ const extractBookNameAndCount = (books = []) => {
   }, [])
 }
 
+// Sorts 5 most popular books in descending order
 const getMostPopularBooks = (books = []) => {
   const booksAndCounts = extractBookNameAndCount(books)
   return sortByCount(booksAndCounts)
 }
 
+// Helper function to get the author and number of borrows from a book
 const extractAuthorAndCount = (books = []) => {
   return books.reduce((acc, book) => {
     const authorNames = book.author.name
-    const authorFirstName = authorNames.first
-    const authorLastName = authorNames.last
-    const extractedAuthor = {name: `${authorFirstName} ${authorLastName}`, count: book.borrows.length}
+    const extractedAuthor = {name: `${authorNames.first} ${authorNames.last}`, count: book.borrows.length}
     acc.push(extractedAuthor)
     return acc
   }, [])
 }
 
-
+// Sorts 5 most popular authors in descending order
 const getMostPopularAuthors = (books = [], authors = []) => {
-  const list = {}
   const authorObjects = []
   const updatedBooks = addAuthorToBook(books, authors)
   const authorsAndCount = extractAuthorAndCount(updatedBooks)
-  authorsAndCount.forEach((author) => addToList(author, list))
+  const list = authorsAndCount.reduce((accList, author) => addToList(author, accList), {})
   for (item in list) {
     const currentItem = list[item]
     const authorObj = {...currentItem}
