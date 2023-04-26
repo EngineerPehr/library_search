@@ -13,15 +13,9 @@ const partitionBooksByBorrowedStatus = (books = []) => {
 
 // Helper function that links accounts to their associated borrows
 const addAccountsToBorrows = ({borrows = []} = {}, accounts = []) => {
-  // Loops through each borrow and account
+  // Loops through each borrow and adds the matching account object
   return borrows.reduce((acc, borrow) => {
-    accounts.forEach((account) => {
-      if (borrow.id === account.id) {
-        // Creates and collects new object if the IDs match
-        const updatedBorrow = {...borrow, ...account}
-        acc.push(updatedBorrow)
-      }
-    })
+    acc.push({...borrow, ...(accounts.find((account) => account.id === borrow.id))}) 
     return acc
   }, [])
 }
